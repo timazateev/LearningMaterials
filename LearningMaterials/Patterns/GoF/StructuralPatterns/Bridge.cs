@@ -9,7 +9,7 @@
     /// </summary>
     class BridgeClient
     {
-        static void Main()
+        static void RunBridgeExample()
         {
             Abstraction abstraction;
             abstraction = new RefinedAbstraction(new ConcreteImplementorA());

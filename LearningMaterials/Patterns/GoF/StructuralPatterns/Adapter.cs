@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LearningMaterials.Patterns.GoF.StructuralPatterns
+namespace LearningMaterials.Patterns.GoF.StructuralPatterns.Adapter
 {
     /// <summary>
     /// Назначение:
@@ -21,7 +21,7 @@ namespace LearningMaterials.Patterns.GoF.StructuralPatterns
         /// <summary>
         /// Entry point into console application.
         /// </summary>
-        static void Main()
+        static void RunAdapterExample()
         {
             // Create adapter and place a request
             Target target = new Adapter();

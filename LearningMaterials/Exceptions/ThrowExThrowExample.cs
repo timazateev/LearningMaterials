@@ -35,7 +35,7 @@ namespace LearningMaterials.Exceptions
 
     public class Example
     {
-        public static void Main()
+        public static void RunExample()
         {
             var s = new ThrowExThrowExample(null);
             Console.WriteLine($"The first character is {s.GetFirstCharacter()}");
