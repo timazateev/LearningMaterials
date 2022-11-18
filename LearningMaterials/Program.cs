@@ -4,6 +4,7 @@ using LearningMaterials.Patterns.GoF.BehavioralPatterns.ChainOfResponsibility;
 using LearningMaterials.Patterns.GoF.BehavioralPatterns.Mediator;
 using LearningMaterials.Patterns.GoF.BehavioralPatterns.State;
 using LearningMaterials.Patterns.GoF.CreationalPatterns;
+using LearningMaterials.Patterns.GRASP;
 using static LearningMaterials.Patterns.GoF.CreationalPatterns.Builder;
 
 internal class Program
@@ -22,6 +23,5 @@ internal class Program
         //MediatorExample.RunMediatorExample();
 
         StateExample.RunStateExample();
-
     }
 }

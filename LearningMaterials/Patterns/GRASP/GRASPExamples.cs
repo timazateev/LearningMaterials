@@ -1,8 +1,12 @@
-﻿using System;
+﻿using LearningMaterials.Patterns.GoF.BehavioralPatterns.Mediator;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static LearningMaterials.Patterns.GoF.BehavioralPatterns.StrategyExample;
+using static LearningMaterials.Patterns.GRASP.GRASPExamples.InformationExpert;
 
 namespace LearningMaterials.Patterns.GRASP
 {
@@ -88,5 +92,108 @@ namespace LearningMaterials.Patterns.GRASP
         {
 
         }
+
+        /// <summary>
+        /// Pure Fabrication или чистая выдумка, или чистое синтезирование. Здесь суть в выдуманном объекте. Аналогом может быть шаблон Service (сервис) в парадигме DDD.
+        /// Какую проблему решает Pure Fabrication?
+        /// Уменьшает зацепление(Low Coupling);
+        /// Повышает связанность(High Cohesion);
+        /// Упрощает повторное использование кода.
+        /// К примеру у вас есть объект Customer и следую шаблону  информационный эксперт вы наделили его логикой которую мы показывали выше, как вы реализуете сохранение Customera в БД?
+        /// Так вот следуя Pure Fabrication принципу, мы создадим Сервис или репозиторий который будет доставать и сохранять такой объект в базу данных.
+        /// </summary>
+        public class PureFabrication
+        {
+        
+        }
+
+        /// <summary>
+        /// Indirection или посредник. Можно столкнуться с таким вопросом: «Как определить ответственность объекта и избежать сильной связанности между объектами, даже если один класс нуждается в функционале (сервисах), который предоставляет другой класс?»
+        /// Решение: возложите ответственность на промежуточный объект, чтобы он осуществлял связь между другими компонентами или службами, чтобы они не были напрямую связаны.Такое решение можно сделать с помощью GoF паттерна медиатор
+        /// Обратите внимание. Посредник поддерживает "low coupling", но снижает читабельность и понимание всей системы. Вы не знаете, какой класс обрабатывает команду из определения Controller. Это компромисс.
+        /// </summary>
+        public class Indirection
+        {
+            public class CustomerOrdersControllerOld : Controller
+            {
+                private readonly IOrdersService _ordersService;
+
+                public CustomerOrdersControllerOld(IOrdersService ordersService)
+                {
+                    this._ordersService = ordersService;
+                }
+            }
+
+            public class CustomerOrdersController : Controller
+            {
+                private readonly IMediator _mediator;
+
+                public CustomerOrdersController(IMediator mediator)
+                {
+                    this._mediator = mediator;
+                }
+
+                public async Task<IActionResult> AddCustomerOrder(
+                    [FromRoute] Guid customerId,
+                    [FromBody] CustomerOrderRequest request)
+                {
+                    await _mediator.Send(new AddCustomerOrderCommand(customerId, request.Products));
+
+                    return Created(string.Empty, null);
+                }
+
+                private IActionResult Created(string empty, object value)
+                {
+                    throw new NotImplementedException();
+                }
+
+            }
+
+            public class AddCustomerOrderCommand
+            {
+                private Guid customerId;
+                private object products;
+
+                public AddCustomerOrderCommand(Guid customerId, object products)
+                {
+                    this.customerId = customerId;
+                    this.products = products;
+                }
+            }
+
+            public interface IMediator
+            {
+                Task Send(AddCustomerOrderCommand acoc);
+            }
+
+            public interface IOrdersService
+            {
+            }
+
+            public class CustomerOrderRequest
+            {
+                public object Products { get; set;}
+            }
+
+        }
+
+        /// <summary>
+        /// Полиморфизм позволяет реализовывать одноименные публичные методы, позволяя различным классам выполнять различные действия при одном и том же вызове. То есть объекты классов Square и Circle могут отображаться(реализовывать метод render) по разному несмотря не то, что они оба подклассы Shape, метод render определен в Shape. (Overriding).
+        /// Принцип полиморфизма является основополагающим в ООП.В этом контексте принцип тесно связан с GoF паттерном strategy.Это самый яркий пример реализации полиморфизма.
+        /// </summary>
+        public class Polymorphism
+        {
+        }
+
+        /// <summary>
+        /// Проблема: Как спроектировать объекты, подсистемы и системы таким образом, чтобы изменения или нестабильность этих элементов не оказывали нежелательного влияния на другие элементы?
+        /// Решение: Определите точки прогнозируемого изменения или нестабильности, распределите обязанности по созданию стабильного интерфейса вокруг них
+        /// По мнению многих это самый важный принцип который косвенно связан с остальными принципами GRASP.В настоящее время одним из наиболее важных показателей качества кода является простота изменений. Как архитекторы и программисты, мы должны быть готовы к постоянно меняющимся требованиям. Это не является «nice to have» атрибутом - это «must-have» в любом приложении и наша обязанность как программистов и архитекторов нашей системы это обеспечить. 
+        /// </summary>
+        public class ProtectedVariations
+        {
+        }
     }
+
+
 }
