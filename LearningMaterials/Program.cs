@@ -1,4 +1,5 @@
 ﻿using LearningMaterials.Basics.Equality;
+using LearningMaterials.Exercise;
 using LearningMaterials.Patterns.GoF.BehavioralPatterns;
 using LearningMaterials.Patterns.GoF.BehavioralPatterns.ChainOfResponsibility;
 using LearningMaterials.Patterns.GoF.BehavioralPatterns.Mediator;
@@ -22,6 +23,40 @@ internal class Program
 
         //MediatorExample.RunMediatorExample();
 
-        StateExample.RunStateExample();
+        //StateExample.RunStateExample();
+
+        //merge nodes check
+        int[] fristToMerge = new int[] { 1, 3, 5, 7 };
+        LinkedList<int> fristList = new LinkedList<int>(fristToMerge);
+
+        int[] secondToMerge = new int[] { 2, 4, 6, 8 };
+        LinkedList<int> secondList = new LinkedList<int>(secondToMerge);
+
+        var twoInOne = new TwoInOne();
+        var mergeResult = twoInOne.MergeFirstToSecond(fristList, secondList);
+
+        foreach (var item in mergeResult)
+        {
+            Console.WriteLine(item);
+        }
+        //Console.ReadKey();
+
+        //Where implementation check
+        int[] dateForMyEnumeration = new int[] { 2, 4, 6, 8 };
+        MyEnumeration<int> myEnumeration = new MyEnumeration<int>(dateForMyEnumeration);
+
+        var result = MyEnumeration<int>.NewWhere(myEnumeration, i => i > 5);
+
+        foreach (var item in result)
+        {
+            Console.WriteLine(item);
+        }
+        Console.ReadKey();
+
+    }
+    private interface IExample
+    {
+        internal void RunStateExample();
+        private protected int ReturnValie();
     }
 }
