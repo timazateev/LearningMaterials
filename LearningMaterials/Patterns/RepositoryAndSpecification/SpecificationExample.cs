@@ -1,0 +1,4 @@
+﻿namespace LearningMaterials.Patterns.RepositoryAndSpecification
+{
+
+}
